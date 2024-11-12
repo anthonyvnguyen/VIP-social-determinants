@@ -11,7 +11,7 @@
     "jsx": "preserve", // Enables JSX for React
     "strict": true, // Enable strict type checking
     "module": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "Bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
