@@ -8,12 +8,29 @@ import system from "./theme";
 import Navbar from "./pages/Navbar";
 import { Button } from "./components/ui/button";
 
+const pages = [
+  {
+    title: "Home",
+    link: "/",
+  },
+  {
+    title: "Assess Your Risk",
+    link: "/assess-your-risk",
+  },
+  {
+    title: "Map",
+    link: "/map",
+  },
+];
+
 function App() {
+  const [page, setPage] = React.useState("Home");
   return (
     <>
       <ChakraProvider value={system}>
-        <Navbar />
-        <Home />
+        <Navbar setPage={setPage}/>
+        {page == "Home" && <Home />}
+
       </ChakraProvider>
     </>
   );
