@@ -1,19 +1,16 @@
-import React, { useState } from "react";
-import Dropdown from "./Dropdown";
+import { useState } from "react";
 import {
-  MenuRoot,
-  MenuTrigger,
-  Button,
-  MenuContent,
-  MenuItem,
   Heading,
-  Image,
 } from "@chakra-ui/react";
+import DynamicMenu from "../components/vip-made/image-menu";
 
 function Home() {
   const [cwSelectedYear, setCWSelectedYear] = useState("");
   const [prmSelectedYear, setPRMSelectedYear] = useState("");
   const [prdSelectedYear, setPRDSelectedYear] = useState("");
+  const [cwImage, setCWImage] = useState(<></>);
+  const [prmImage, setPRMImage] = useState(<></>);
+  const [prdImage, setPRDImage] = useState(<></>);
 
   const cwYears = [
     "1999",
@@ -60,66 +57,38 @@ function Home() {
 
   const prdYears = ["2003-2007", "2008-2012", "2013-2017", "2018-2022"];
 
-  const renderImage = (directory: string, year: string) => {
-    if (!year) return null;
-    const path = `/oasis_data/${directory}/${year}.png`;
-    return <Image src={path} alt={year} height={500} width={500} />;
-  };
 
-  interface DropdownProps {
-    btnText: string;
-    btnOptions: string[];
-    onSelect: (year: string) => void;
-  }
-
-  const handleYearSelect = (
-    year: string,
-    setter: React.Dispatch<React.SetStateAction<string>>
-  ): void => {
-    setter(year);
-  };
   return (
     <div style={{ padding: "16px" }}>
-      <Heading as="h1">T2DM Social Determinants in Georgia</Heading>
-      <div className="section">
-        <Heading as='h2'>County-Wide Discharges 1999-2022</Heading>
-        <Dropdown
-          btnText="Year"
-          btnOptions={cwYears}
-          onSelect={(year: string) => handleYearSelect(year, setCWSelectedYear)}
+      <Heading size={"5xl"}>T2DM Social Determinants in Georgia</Heading>
+        <Heading size={"2xl"}>County-Wide Discharges 1999-2022</Heading>
+        <DynamicMenu
+          items={cwYears}
+          setVal={setCWSelectedYear}
+          setIm={setCWImage}
+          dir={"_CountyWise_DischargesYearly_1999through2022"}
         />
-        {renderImage(
-          "_CountyWise_DischargesYearly_1999through2022",
-          cwSelectedYear
-        )}
-      </div>
+        {cwImage}
 
-      <div className="section">
-        <Heading as='h2'>Perinatal Mortality Trends 2010-2022</Heading>
-        <Dropdown
-          btnText="Year"
-          btnOptions={prmYears}
-          onSelect={(year: string) =>
-            handleYearSelect(year, setPRMSelectedYear)
-          }
+      <Heading size={"2xl"}>Perinatal Mortality Trends 2010-2022</Heading>
+        <DynamicMenu
+          items={prmYears}
+          setVal={setPRMSelectedYear}
+          setIm={setPRMImage}
+          dir={"PerinatalRegion_MortalityTrendMap_2010through2022"}
         />
-        {renderImage(
-          "PerinatalRegion_MortalityTrendMap_2010through2022",
-          prmSelectedYear
-        )}
-      </div>
-
-      <div className="section">
-        <Heading as='h2'>Perinatal Number Discharges 5 Year Aggregate</Heading>
-        <Dropdown
-          btnText="Year"
-          btnOptions={prdYears}
-          onSelect={(year: string) =>
-            handleYearSelect(year, setPRDSelectedYear)
-          }
-        />
-        {renderImage("PerinatalRegion_NumberDischarges5YrAgg", prdSelectedYear)}
-      </div>
+      {prmImage}
+      
+      <Heading size={"2xl"}>
+        Perinatal Number Discharges 5 Year Aggregate
+      </Heading>
+      <DynamicMenu
+        items={prdYears}
+        setVal={setPRDSelectedYear}
+        setIm={setPRDImage}
+        dir={"PerinatalRegion_NumberDischarges5YrAgg"}
+      />
+      {prdImage}
     </div>
   );
 }

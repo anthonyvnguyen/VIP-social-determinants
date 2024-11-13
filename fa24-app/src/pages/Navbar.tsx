@@ -11,7 +11,7 @@ const NavLink = ({ children }: { children: React.ReactNode }) => (
     py={1}
     _hover={{
       textDecoration: "none",
-      backgroundColor: "gray.500",
+      backgroundColor: "brand.200",
     }}
     href={`/${children?.toString().toLowerCase()}`}
     color="White"
@@ -22,7 +22,7 @@ const NavLink = ({ children }: { children: React.ReactNode }) => (
 
 const Navbar = () => {
   return (
-    <Box bg="brand.100" width="100%" color="white" height={48}>
+    <Box bg="brand.100" width="100%" color="white" height={16}>
       <Flex alignItems="center" justifyContent="center" h="100%">
         <HStack as="nav">
           {Links.map((link) => (
