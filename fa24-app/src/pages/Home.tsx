@@ -1,7 +1,5 @@
 import { useState } from "react";
-import {
-  Heading,
-} from "@chakra-ui/react";
+import { Heading, VStack } from "@chakra-ui/react";
 import DynamicMenu from "../components/vip-made/image-menu";
 
 function Home() {
@@ -57,10 +55,10 @@ function Home() {
 
   const prdYears = ["2003-2007", "2008-2012", "2013-2017", "2018-2022"];
 
-
   return (
-    <div style={{ padding: "16px" }}>
-      <Heading size={"5xl"}>T2DM Social Determinants in Georgia</Heading>
+
+      <VStack p={16}>
+        <Heading size={"5xl"}>T2DM Social Determinants in Georgia</Heading>
         <Heading size={"2xl"}>County-Wide Discharges 1999-2022</Heading>
         <DynamicMenu
           items={cwYears}
@@ -70,26 +68,27 @@ function Home() {
         />
         {cwImage}
 
-      <Heading size={"2xl"}>Perinatal Mortality Trends 2010-2022</Heading>
+        <Heading size={"2xl"}>Perinatal Mortality Trends 2010-2022</Heading>
         <DynamicMenu
           items={prmYears}
           setVal={setPRMSelectedYear}
           setIm={setPRMImage}
           dir={"PerinatalRegion_MortalityTrendMap_2010through2022"}
         />
-      {prmImage}
-      
-      <Heading size={"2xl"}>
-        Perinatal Number Discharges 5 Year Aggregate
-      </Heading>
-      <DynamicMenu
-        items={prdYears}
-        setVal={setPRDSelectedYear}
-        setIm={setPRDImage}
-        dir={"PerinatalRegion_NumberDischarges5YrAgg"}
-      />
-      {prdImage}
-    </div>
+        {prmImage}
+
+        <Heading size={"2xl"}>
+          Perinatal Number Discharges 5 Year Aggregate
+        </Heading>
+        <DynamicMenu
+          items={prdYears}
+          setVal={setPRDSelectedYear}
+          setIm={setPRDImage}
+          dir={"PerinatalRegion_NumberDischarges5YrAgg"}
+        />
+        {prdImage}
+      </VStack>
+
   );
 }
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Flex, HStack, Link } from "@chakra-ui/react";
 
-const Links = ["Home", "About", "Map"];
+const Links = ["Home", "Assess Your Risk", "Map"];
 
 const NavLink = ({ children }: { children: React.ReactNode }) => (
   <Link
