@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, Flex, HStack, Link } from "@chakra-ui/react";
+import { Button } from "../components/ui/button";
 
 const Links = ["Home", "Assess Your Risk", "Map"];
 
@@ -29,9 +30,12 @@ const Navbar: React.FC<NavbarProps> = ({ setPage }) => {
     <Box bg="brand.100" width="100%" color="white" height={16}>
       <Flex alignItems="center" justifyContent="center" h="100%">
         <HStack as="nav">
-          {Links.map((link) => (
-            <NavLink href={link}>{link}</NavLink>
+          {Links.map((link) => ( 
+            <Button onClick={() => setPage(link)}>{link}</Button>
           ))}
+          {/*{Links.map((link) => (
+            <NavLink href={link}>{link}</NavLink>
+          ))} */}
         </HStack>
       </Flex>
     </Box>
