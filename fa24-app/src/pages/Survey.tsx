@@ -1,13 +1,24 @@
+// src/pages/Survey.tsx
+
 import Survey_Questions from "../components/vip-made/survey-question";
-import { Button, Heading } from "@chakra-ui/react";
+import { Heading } from "@chakra-ui/react";
+import { Alert } from "../components/ui/alert";
+import { Button } from "../components/ui/button";
 import { useState } from "react";
 import axios from "axios";
-import { questions } from "../components/vip-made/questions";
+import questions from "../components/vip-made/questions.json"; // Import JSON
+
+interface RiskScores {
+  non_diabetic: number;
+  prediabetic: number;
+  diabetic: number;
+}
 
 function Survey() {
-  var initial_input = Object.entries(questions).reduce(
-    (acc, [key, question]) => {
-      acc[key] = null;
+  // Initialize state with all question titles set to null
+  const initial_input = Object.values(questions).reduce(
+    (acc, question) => {
+      acc[question.title] = null;
       return acc;
     },
     {} as { [key: string]: number | null },
@@ -16,37 +27,73 @@ function Survey() {
   const [answers, setAnswers] = useState<{ [key: string]: number | null }>(
     initial_input,
   );
-  const [riskScores, setRiskScores] = useState(null);
+  const [riskScores, setRiskScores] = useState<RiskScores | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null); // Reset error state
+    setRiskScores(null); // Reset previous scores
+    setLoading(true); // Start loading
+
+    // Check for null values
+    const answered = Object.values(answers).every((value) => value === null);
+    if (answered) {
+      setError("Please answer all questions before submitting.");
+      setLoading(false);
+      return;
+    }
+
     try {
-      const response = await axios.post("http://127.0.0.1:8000/predict", {
-        feature1: parseFloat(answers.feature1),
-        feature2: parseFloat(answers.feature2),
-        feature3: parseFloat(answers.feature3),
-        featureN: parseFloat(answers.featureN),
-      });
-      
+      const apiUrl =
+        process.env.REACT_APP_API_URL || "http://127.0.0.1:8000/predict";
+      const response = await axios.post<RiskScores>(apiUrl, answers);
       setRiskScores(response.data);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error making prediction:", error);
+      if (error.response && error.response.data && error.response.data.detail) {
+        setError(`Prediction failed: ${error.response.data.detail}`);
+      } else {
+        setError("Failed to get prediction. Please try again later.");
+      }
+    } finally {
+      setLoading(false); // End loading
     }
   };
 
   return (
     <>
-      <Heading as="h1" size="4xl" textAlign="center">
+      <Heading as="h1" size="4xl" textAlign="center" mb={6}>
         Survey
       </Heading>
-      <Survey_Questions setAnswers={setAnswers} />
-      <Button onClick={handleSubmit}>Submit</Button>
+      <form onSubmit={handleSubmit}>
+        <Survey_Questions setAnswers={setAnswers} />
+        {error && (
+          <Alert status="error" mb={4}>
+            {error}
+          </Alert>
+        )}
+        <Button
+          type="submit"
+          colorScheme="teal"
+          disabled={
+            Object.values(answers).every((value) => value === null) || loading
+          }
+          loading={loading} // Assuming 'isLoading' prop exists in your Button component
+        >
+          Submit
+        </Button>
+      </form>
 
       {riskScores && (
-        <div>
-          <p>Non-Diabetic: {riskScores.non_diabetic * 100}%</p>
-          <p>Prediabetic: {riskScores.prediabetic * 100}%</p>
-          <p>Diabetic: {riskScores.diabetic * 100}%</p>
+        <div style={{ marginTop: "20px" }}>
+          <Heading as="h2" size="lg" mb={4}>
+            Risk Scores:
+          </Heading>
+          <p>Non-Diabetic: {(riskScores.non_diabetic * 100).toFixed(2)}%</p>
+          <p>Prediabetic: {(riskScores.prediabetic * 100).toFixed(2)}%</p>
+          <p>Diabetic: {(riskScores.diabetic * 100).toFixed(2)}%</p>
         </div>
       )}
     </>

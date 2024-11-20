@@ -7,6 +7,7 @@ import { ChakraProvider, defaultSystem, Heading } from "@chakra-ui/react";
 import system from "./theme";
 import Navbar from "./pages/Navbar";
 import { Button } from "./components/ui/button";
+import Survey from "./pages/Survey";
 
 const pages = [
   {
@@ -28,10 +29,15 @@ function App() {
   return (
     <>
       <ChakraProvider value={system}>
-        <Navbar setPage={setPage}/>
-        {page == "Home" && <Home />}
-
+        <Navbar setPage={setPage} />
+        <Home />
+        <Survey />
       </ChakraProvider>
+      {/* <ChakraProvider value={system}>
+        
+        {page == "Home" && <Home />}
+        {page == "Assess Your Risk" && <Survey />}
+      </ChakraProvider> */}
     </>
   );
 }

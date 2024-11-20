@@ -1,11 +1,11 @@
-"use client";
+// src/components/vip-made/survey-question.tsx
 
-import { FormEvent, SetStateAction, useState } from "react";
+import { SetStateAction } from "react";
 import { For, HStack } from "@chakra-ui/react";
 import { Card } from "@chakra-ui/react";
 import { RadioCardItem, RadioCardLabel, RadioCardRoot } from "../ui/radio-card";
 
-import { questions } from "./questions";
+import questions from "./questions.json"; // Import JSON
 
 const Survey_Questions = ({
   setAnswers,
@@ -13,10 +13,10 @@ const Survey_Questions = ({
   setAnswers: React.Dispatch<SetStateAction<{ [key: string]: number | null }>>;
 }) => {
   // Function to handle changes in answers
-  const handleAnswerChange = (questionKey: string, selectedValue: string) => {
+  const handleAnswerChange = (questionTitle: string, selectedValue: string) => {
     setAnswers((prev) => ({
       ...prev,
-      [questionKey]: Number(selectedValue),
+      [questionTitle]: Number(selectedValue),
     }));
   };
 
@@ -34,7 +34,9 @@ const Survey_Questions = ({
                       label={option.label}
                       value={option.value}
                       key={option.value}
-                      onClick={(value) => handleAnswerChange(key, option.value)}
+                      onClick={() =>
+                        handleAnswerChange(question.title, option.value)
+                      }
                     />
                   )}
                 </For>
