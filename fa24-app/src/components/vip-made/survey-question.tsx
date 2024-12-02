@@ -24,13 +24,13 @@ const Survey_Questions = ({
     <>
       <For each={Object.entries(questions)}>
         {([key, question]) => (
-          <div style={{paddingTop: 4, paddingBottom: 4 }}>
+          <div style={{ paddingTop: 4, paddingBottom: 4 }}>
             <Card.Root key={key} p={4} variant="outline">
               <RadioCardRoot paddingX={2}>
                 <RadioCardLabel>{question.question}</RadioCardLabel>
-                <HStack align="stretch">
+                <HStack align="stretch" wrap="wrap">
                   <For each={question.options}>
-                    {(option) => (
+                    {(option, index) => (
                       <RadioCardItem
                         label={option.label}
                         value={option.value}
@@ -39,6 +39,7 @@ const Survey_Questions = ({
                           handleAnswerChange(question.title, option.value)
                         }
                         bg={"brand.600"}
+                        style={{ flexBasis: "calc(100% / 7 - 8px)" }}
                       />
                     )}
                   </For>

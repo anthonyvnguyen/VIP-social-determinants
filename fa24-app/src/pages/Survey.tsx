@@ -64,8 +64,8 @@ function Survey() {
   };
 
   return (
-    <>
-      <Card.Root>
+    <div style={{ display: "flex", justifyContent: "center"}}>
+      <Card.Root maxW={1080}>
         <Card.Body bg="brand.500">
           <Card.Title>Survey</Card.Title>
           <Card.Description paddingBottom={6}>
@@ -109,7 +109,7 @@ function Survey() {
           <RiskVisualization riskScores={riskScores} />
         </div>
       )}
-    </>
+    </div>
   );
 }
 
