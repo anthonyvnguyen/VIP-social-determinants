@@ -2,6 +2,7 @@ import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import Home from "./pages/Home";
+import Map from "./pages/Map";
 import { Provider } from "./components/ui/provider";
 import { ChakraProvider, defaultSystem, Heading } from "@chakra-ui/react";
 import system from "./theme";
@@ -30,8 +31,9 @@ function App() {
     <>
       <ChakraProvider value={system}>
         <Navbar setPage={setPage} />
-        <Home />
-        <Survey />
+        {page === "Home" && <Home />}
+        {page === "Assess Your Risk" && <Survey />}
+        {page === "Map" && <Map />}
       </ChakraProvider>
       {/* <ChakraProvider value={system}>
         git 
