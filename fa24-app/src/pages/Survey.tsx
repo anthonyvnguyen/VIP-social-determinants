@@ -1,7 +1,7 @@
 // src/pages/Survey.tsx
 
 import Survey_Questions from "../components/vip-made/survey-question";
-import { Heading } from "@chakra-ui/react";
+import { Card, Heading } from "@chakra-ui/react";
 import { Alert } from "../components/ui/alert";
 import { Button } from "../components/ui/button";
 import { useState } from "react";
@@ -64,27 +64,38 @@ function Survey() {
 
   return (
     <>
-      <Heading as="h1" size="4xl" textAlign="center" mb={6}>
-        Survey
-      </Heading>
-      <form onSubmit={handleSubmit}>
-        <Survey_Questions setAnswers={setAnswers} />
-        {error && (
-          <Alert status="error" mb={4}>
-            {error}
-          </Alert>
-        )}
-        <Button
-          type="submit"
-          colorScheme="teal"
-          disabled={
-            Object.values(answers).every((value) => value === null) || loading
-          }
-          loading={loading} // Assuming 'isLoading' prop exists in your Button component
-        >
-          Submit
-        </Button>
-      </form>
+      <Card.Root>
+        <Card.Body bg="brand.500">
+          <Card.Title>Survey</Card.Title>
+          <Card.Description paddingBottom={6}>
+            Please answer the following questions to assess your risk of
+            diabetes.
+          </Card.Description>
+
+          <form onSubmit={handleSubmit} style={{ justifyContent: "center" }}>
+            <Survey_Questions setAnswers={setAnswers} />
+            {error && (
+              <Alert status="error" mb={4}>
+                {error}
+              </Alert>
+            )}
+            <div style={{ display: "flex", justifyContent: "center", paddingTop: "8px"}}>
+              <Button
+                type="submit"
+                colorScheme="teal"
+                disabled={
+                  Object.values(answers).every((value) => value === null) ||
+                  loading
+                }
+                loading={loading}
+                bg={"brand.100"}
+              >
+                Submit
+              </Button>
+            </div>
+          </form>
+        </Card.Body>
+      </Card.Root>
 
       {riskScores && (
         <div style={{ marginTop: "20px" }}>
