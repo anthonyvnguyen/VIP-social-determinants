@@ -6,9 +6,10 @@ import { Alert } from "../components/ui/alert";
 import { Button } from "../components/ui/button";
 import { useState } from "react";
 import axios from "axios";
-import questions from "../components/vip-made/questions.json"; // Import JSON
+import questions from "../components/vip-made/questions.json";
+import RiskVisualization from "../components/vip-made/risk_score_visualization";
 
-interface RiskScores {
+export interface RiskScores {
   non_diabetic: number;
   prediabetic: number;
   diabetic: number;
@@ -79,7 +80,13 @@ function Survey() {
                 {error}
               </Alert>
             )}
-            <div style={{ display: "flex", justifyContent: "center", paddingTop: "8px"}}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                paddingTop: "8px",
+              }}
+            >
               <Button
                 type="submit"
                 colorScheme="teal"
@@ -98,13 +105,8 @@ function Survey() {
       </Card.Root>
 
       {riskScores && (
-        <div style={{ marginTop: "20px" }}>
-          <Heading as="h2" size="lg" mb={4}>
-            Risk Scores:
-          </Heading>
-          <p>Non-Diabetic: {(riskScores.non_diabetic * 100).toFixed(2)}%</p>
-          <p>Prediabetic: {(riskScores.prediabetic * 100).toFixed(2)}%</p>
-          <p>Diabetic: {(riskScores.diabetic * 100).toFixed(2)}%</p>
+        <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+          <RiskVisualization riskScores={riskScores} />
         </div>
       )}
     </>
